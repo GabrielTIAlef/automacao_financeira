@@ -1,0 +1,11 @@
+.env
+token.json
+*.xlsx
+*.xlsm
+*.csv
+*.json
+*.log
+__pycache__/
+.venv/
+logs/
+data/
