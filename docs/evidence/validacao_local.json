@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-20",
+  "base_commit": "4af1c848ee4eb74dea935bad61750beb8039a06f",
+  "environment": {
+    "os": "Windows x86-64",
+    "python": "3.12.14",
+    "postgresql": "18.6"
+  },
+  "unit_http_oauth_monitor_rpa_tests": 41,
+  "postgresql_tests": 24,
+  "executions": [
+    {
+      "installation": "fresh requirements.txt",
+      "tests": {
+        "tests_run": 65,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "postgresql_required": true,
+        "successful": true
+      },
+      "demo": {
+        "status": "local_complete",
+        "rows": {
+          "customers": 3,
+          "receivables": 2,
+          "manual": 1,
+          "intents": 3
+        }
+      },
+      "demo_exit_code": 0,
+      "cluster_stopped": true,
+      "pip_check": "No broken requirements found."
+    },
+    {
+      "installation": "fresh requirements-lock.txt",
+      "tests": {
+        "tests_run": 65,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "postgresql_required": true,
+        "successful": true
+      },
+      "demo": {
+        "status": "local_complete",
+        "rows": {
+          "customers": 3,
+          "receivables": 2,
+          "manual": 1,
+          "intents": 3
+        }
+      },
+      "demo_exit_code": 0,
+      "cluster_stopped": true,
+      "pip_check": "No broken requirements found."
+    }
+  ],
+  "http": "fake session; real requests blocked in tests/demo",
+  "browser": "fake driver; no authenticated session",
+  "github_ci": "prepared, not published or executed yet",
+  "not_validated": [
+    "Corporate API or account",
+    "Production data or migration",
+    "Production load",
+    "Linux/macOS in this delivery",
+    "Credential revocation and historical cleanup"
+  ]
+}
