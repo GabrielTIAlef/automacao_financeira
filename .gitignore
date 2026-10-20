@@ -1,4 +1,6 @@
 .env
+.env.*
+!.env.example
 token.json
 *.xlsx
 *.xlsm
@@ -7,5 +9,15 @@ token.json
 *.log
 __pycache__/
 .venv/
+.venv*/
+.local-test/
+secrets/
+chrome-profile/
+*.py[cod]
+*.dump
+*.bak
+*.pem
+*.key
+!docs/evidence/validacao_local.json
 logs/
 data/
