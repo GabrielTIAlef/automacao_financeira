@@ -1,12 +1,14 @@
 # Automação Financeira BI — Conta Azul, Notion, PostgreSQL e Power BI
 
-Integração financeira em **Python** para acompanhamento de recebíveis vencidos,
-cadastros e informações manuais de cobrança. A versão pública inclui HTTP e
-OAuth com limites explícitos, carga transacional, fila de sincronização Notion,
-exportação Excel, observador de arquivos e solicitação opcional de refresh.
+O acompanhamento financeiro precisava reunir recebíveis do sistema e informações
+de cobrança mantidas pela equipe, preservando o vínculo entre cliente, saldo e
+acompanhamento. Este caso apresenta minha experiência com **integração financeira e automação
+aplicada a BI**, conectando Conta Azul, Notion, PostgreSQL e Excel.
 
-A demonstração usa **dados fictícios, serviços simulados e PostgreSQL real
-descartável**. Não exige contas ou arquivos da antiga empresa.
+O projeto permite avaliar tanto a compreensão do processo financeiro quanto o
+raciocínio necessário para coordenar sistemas que podem falhar em momentos
+diferentes. A versão pública usa dados fictícios e serviços simulados para
+tornar essas decisões verificáveis.
 
 ## Origem e contexto profissional
 
@@ -31,6 +33,28 @@ descritos separadamente abaixo.
 Dashboards, medidas DAX, macros Excel, arquivos de restituições, configurações de
 agendamento e regras privadas não estão publicados. A amostra não reconstrói
 macros ou fórmulas empresariais nem comprova atualização em tempo real.
+
+## Como a solução conecta processo e integração
+
+O trabalho apresentado envolve coletar clientes e recebíveis, relacioná-los ao
+acompanhamento manual e preparar informações para análise. A evolução pública
+explicita as escolhas de identidade, preservação de dados e recuperação de
+falhas que sustentam esse fluxo.
+
+| Situação do processo | Decisão na implementação pública | Conhecimento demonstrado |
+| --- | --- | --- |
+| Clientes podem ter o mesmo nome | Relacionar registros por UUID | Modelagem de identidade e prevenção de associação incorreta |
+| A equipe mantém informações que não vêm da API | Preservar campos manuais ao atualizar o acompanhamento | Compreensão do uso operacional dos dados |
+| O banco pode confirmar a carga e o Notion ficar indisponível | Registrar intenções em outbox e acompanhar a entrega separadamente | Transações, integração entre sistemas e recuperação |
+| Um timeout não informa se a criação remota aconteceu | Recuperar por identidade e tratar ambiguidade antes de repetir | Idempotência e análise de falhas em APIs |
+
+O resultado relatado na experiência original é a centralização do acompanhamento
+e a automação de atualizações. Na amostra pública, o resultado verificável é
+um fluxo que mantém valores e campos manuais e explicita o estado da integração.
+Não se atribui a ele uma redução de inadimplência ou economia não medida.
+
+Para examinar essas decisões: [contratos](src/contracts.py),
+[publicação no banco](src/database.py) e [sincronização](src/sync.py).
 
 ## Arquitetura pública e limites de consistência
 
@@ -72,6 +96,9 @@ O contrato completo está em [CONTRATO_DADOS.md](docs/CONTRATO_DADOS.md).
 O significado de inadimplência é **saldo vencido positivo na janela consultada**,
 não uma conclusão sobre qualquer dívida fora dessa cobertura.
 
+<details>
+<summary>Reproduzir o caso fictício e observar os estados da integração</summary>
+
 ## Demonstração reproduzível
 
 Pré-requisitos do roteiro local: Windows, Python 3.12 e binários portáteis do
@@ -98,6 +125,8 @@ Recebiveis, Clientes e Controle_Manual. Valores monetários são texto decimal p
 preservar precisão; UUID e documento permanecem texto. O resultado da demo no
 terminal inclui os estados dos serviços fictícios.
 
+</details>
+
 ## Testes e CI
 
 A suíte atual contém **65 testes: 41 de contrato, HTTP, OAuth, observador e RPA,
@@ -113,9 +142,10 @@ campos manuais, erros de paginação, rotação de token e retomada do observado
 ```
 
 Sem iniciar o banco, os casos PostgreSQL são explicitamente ignorados. Isso não
-equivale à validação completa. O workflow preparado para GitHub Actions instala
-dependências fixadas, executa pip check e exige PostgreSQL sem omissões. A primeira
-execução no GitHub/Linux depende de publicação autorizada. Não há deploy automático.
+equivale à validação completa. O workflow do GitHub Actions instala dependências
+fixadas, executa pip check e exige PostgreSQL sem omissões.
+Há [execução aprovada da versão publicada](https://github.com/GabrielTIAlef/automacao_financeira/actions/runs/39433104467),
+consultada em 13/11/2026. Não houve nova execução de testes nesta revisão textual.
 
 ## Organização e tecnologias
 
